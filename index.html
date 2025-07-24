@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2D农场冒险</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <!-- 游戏主容器 -->
+  <div id="game-container">
+    <!-- 地图容器 -->
+    <div id="map-container"></div>
+    
+    <!-- 玩家角色 -->
+    <div id="player"></div>
+    
+    <!-- 游戏UI元素 -->
+    <div id="game-ui">
+      <!-- 快捷按钮 -->
+      <div class="quick-actions">
+        <button id="quest-btn" class="ui-button">任务</button>
+        <button id="inventory-btn" class="ui-button">背包</button>
+      </div>
+      
+      <!-- 调试信息 -->
+      <div id="debug-info" class="debug-panel"></div>
+      
+      <!-- 游戏消息 -->
+      <div id="message-container"></div>
+    </div>
+    
+    <!-- 系统面板容器 -->
+    <div id="system-panels">
+      <!-- 背包面板 -->
+      <div id="inventory-panel" class="panel hidden">
+        <div class="panel-header">
+          <h2>背包</h2>
+          <button id="close-inventory" class="close-btn">✕</button>
+        </div>
+        <div class="panel-content">
+          <!-- 动态生成内容 -->
+        </div>
+      </div>
+      
+      <!-- 任务面板 -->
+      <div id="quest-panel" class="panel hidden">
+        <div class="panel-header">
+          <h2>任务列表</h2>
+          <button id="close-quest" class="close-btn">✕</button>
+        </div>
+        <div class="panel-content">
+          <div id="quest-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 游戏配置数据 -->
+  <script src="./js/core/Config.js"></script>
+  <!-- 核心系统 -->
+  <script src="./js/core/EventSystem.js"></script>
+  <!-- 实体 -->
+  <script src="./js/entities/Player.js"></script>
+  <!-- 系统 -->
+  <script src="./js/systems/MapSystem.js"></script>
+  <script src="./js/systems/InventorySystem.js"></script>
+  <script src="./js/systems/FishingSystem.js"></script>
+  <script src="./js/systems/QuestSystem.js"></script>
+  <!-- 游戏引擎 -->
+  <script src="./js/core/GameEngine.js"></script>
+<!-- 6. 初始化 -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    const game = new GameEngine(Config);
+    window.game = game; // 用于调试
+  } catch (e) {
+    console.error("游戏初始化失败:", e);
+    alert("游戏初始化失败，请查看控制台获取详细信息");
+  }
+});
+</script>
+</body>
+</html>
