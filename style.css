@@ -1,0 +1,453 @@
+/* 基础重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #222;
+  color: #fff;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 游戏主容器 */
+#game-container {
+  position: relative;
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  border: 4px solid #444;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  background-color: #333;
+}
+
+/* 地图容器 */
+#map-container {
+  position: absolute;
+  width: 10000px;
+  height: 10000px;
+  transform-origin: 0 0;
+  z-index: 1;
+}
+
+/* 瓦片样式 */
+.tile {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  background-size: cover;
+  image-rendering: pixelated;
+}
+
+/* 玩家角色 */
+#player {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+}
+
+/* 游戏UI容器 */
+#game-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* 快捷按钮 */
+.quick-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.ui-button {
+  padding: 8px 15px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  pointer-events: auto;
+}
+
+.ui-button:hover {
+  background: #45a049;
+}
+
+/* 调试信息面板 */
+.debug-panel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* 游戏消息 */
+#message-container {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.game-message {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  animation: fadeIn 0.3s;
+  max-width: 80%;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 系统面板容器 */
+#system-panels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 200;
+}
+
+/* 通用面板样式 */
+.panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  color: white;
+  overflow-y: auto;
+  max-height: 80vh;
+  pointer-events: auto;
+}
+
+.panel.hidden {
+  display: none;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #444;
+}
+
+.panel-header h2 {
+  margin: 0;
+  color: #4CAF50;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.close-btn:hover {
+  color: #ccc;
+}
+
+.panel-content {
+  padding: 15px;
+}
+
+/* 背包面板特定样式 */
+#inventory-panel {
+  width: 700px;
+}
+
+.inventory-tabs {
+  display: flex;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #444;
+}
+
+.inventory-tabs button {
+  background: none;
+  border: none;
+  color: #ccc;
+  padding: 8px 15px;
+  margin-right: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.inventory-tabs button.tab-active {
+  color: white;
+  border-bottom: 2px solid #4CAF50;
+}
+
+#inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#inventory-table th, #inventory-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #444;
+}
+
+#inventory-table th {
+  background-color: #333;
+}
+
+.inventory-item-image {
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
+  vertical-align: middle;
+  image-rendering: pixelated;
+}
+
+/* 任务面板特定样式 */
+#quest-panel {
+  width: 450px;
+}
+
+.quest-item {
+  padding: 15px;
+  margin-bottom: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+.quest-item.completed {
+  border-left: 4px solid #4CAF50;
+}
+
+.quest-item h3 {
+  margin-top: 0;
+  color: #4CAF50;
+  font-size: 18px;
+}
+
+.quest-item p {
+  margin: 8px 0;
+  color: #ddd;
+}
+
+.quest-progress {
+  margin: 10px 0;
+}
+
+.requirement {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.requirement .item-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  image-rendering: pixelated;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #333;
+  border-radius: 4px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  background: #4CAF50;
+  transition: width 0.3s;
+}
+
+.claim-btn {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.claim-btn:hover {
+  background: #45a049;
+}
+
+/* 天气效果 */
+.rain {
+  filter: brightness(0.85) saturate(0.7) hue-rotate(20deg);
+  position: relative;
+  overflow: hidden;
+}
+
+.rain::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg stroke='%2300bfff' stroke-width='1' opacity='0.7'%3E%3Cline x1='10' y1='-10' x2='11' y2='110'/%3E%3Cline x1='25' y1='-10' x2='26' y2='110'/%3E%3Cline x1='40' y1='-10' x2='41' y2='110'/%3E%3Cline x1='55' y1='-10' x2='56' y2='110'/%3E%3Cline x1='70' y1='-10' x2='71' y2='110'/%3E%3Cline x1='85' y1='-10' x2='86' y2='110'/%3E%3C/g%3E%3C/svg%3E") repeat;
+  animation: rain-drop 0.5s linear infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes rain-drop {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* 响应式设计 */
+@media (max-width: 800px) {
+  #game-container {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+  }
+  
+  #inventory-panel, #quest-panel {
+    width: 95vw;
+    max-height: 90vh;
+  }
+}
+/* 钓鱼游戏样式 */
+.fishing-game {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 3px solid #1a6fc9;
+  border-radius: 10px;
+  color: white;
+  z-index: 1000;
+  text-align: center;
+}
+
+.fishing-game.hidden {
+  display: none;
+}
+
+.fishing-pond {
+  position: relative;
+  height: 300px;
+  width: 80%;
+  margin: 20px auto;
+  background: linear-gradient(to bottom, #1a6fc9, #0a3d7a);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.fishing-rod {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, #8B4513);
+  z-index: 1;
+}
+
+.fish {
+  position: absolute;
+  left: 50%;
+  width: 60px;
+  height: 30px;
+  margin-left: -30px;
+  background-image: url('../assets/items/fish.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: translateY(-50%);
+  transition: top 0.3s ease-out;
+  z-index: 2;
+}
+
+.slider {
+  position: absolute;
+  left: 50%;
+  width: 40px;
+  height: 20px;
+  margin-left: -20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-50%);
+  transition: top 0.1s linear;
+  z-index: 3;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+.fishing-progress {
+  position: relative;
+  height: 30px;
+  margin: 10px 0;
+  background-color: #333;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #4CAF50;
+  transition: width 0.2s;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+}
+
+.fishing-instructions {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #ccc;
+}
